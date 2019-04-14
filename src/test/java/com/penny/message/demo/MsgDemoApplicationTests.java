@@ -1,4 +1,4 @@
-package com.gmw.message.demo;
+package com.penny.message.demo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

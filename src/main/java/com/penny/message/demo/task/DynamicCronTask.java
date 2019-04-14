@@ -1,17 +1,8 @@
-package com.gmw.message.demo.task;
+package com.penny.message.demo.task;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-
-import static java.lang.Thread.sleep;
 
 /**
  * @author 0-Vector

@@ -1,4 +1,4 @@
-package com.gmw.message.demo;
+package com.penny.message.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

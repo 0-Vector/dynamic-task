@@ -1,8 +1,7 @@
-package com.gmw.message.demo.task;
+package com.penny.message.demo.task;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
@@ -32,15 +31,24 @@ public class DynamicTask {
      */
     private static final long CRON_REFRESH_FIXED_RATE = 1000 * 60 * 10;
 
-    @Autowired
-    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    /**
+     * 获取最新cron配置的接口地址
+     */
+    public static final String CRON_REFRESH_URL = "";
+
+    private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
     private ScheduledFuture<?> future;
 
-    @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        return new ThreadPoolTaskScheduler();
+    @Autowired
+    public DynamicTask(ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
     }
+
+//    @Bean
+//    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+//        return new ThreadPoolTaskScheduler();
+//    }
 
     @PostConstruct
     public void startTask() {
@@ -54,7 +62,6 @@ public class DynamicTask {
     /**
      * 定时任务
      * 定时获取最新的cron表达式，并更新本任务cron
-     * @return 定时cron表达式
      */
     @Scheduled(fixedRate = CRON_REFRESH_FIXED_RATE)
     public void autoRefreshCron() {
@@ -64,8 +71,8 @@ public class DynamicTask {
     }
 
     /**
-     * 从远程配置中心获取任务cron表达式的方法
-     * @return
+     * 从远程配置中心获取任务cron表达式
+     * @return 最新的cron
      */
     private String getLatestCron() {
         // TODO 获取最新的cron配置
@@ -81,6 +88,6 @@ public class DynamicTask {
     public void refreshCron(String cron) {
         this.cron = cron;
         startTask();
-        log.info("==> 更新cron");
+        log.info("==> 更新cron为[{}]", cron);
     }
 }
