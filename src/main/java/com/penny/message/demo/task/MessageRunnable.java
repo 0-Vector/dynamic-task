@@ -3,6 +3,8 @@ package com.penny.message.demo.task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -10,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
  * @date 2019/4/12 13:23
  */
 @Slf4j
+@Component
 public class MessageRunnable implements Runnable {
 
     /**
@@ -17,8 +20,11 @@ public class MessageRunnable implements Runnable {
      */
     public static final String MESSAGE_SEND_URL = "";
 
-    @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
+
+    public MessageRunnable(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
 
     @Autowired
     ObjectMapper objectMapper;
@@ -32,6 +38,7 @@ public class MessageRunnable implements Runnable {
         // 1. 获取业务数据并组装成要发送的消息对象
 
         // 2. 发送消息
+        System.out.println(restTemplate);
 
     }
 }

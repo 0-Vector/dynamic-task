@@ -2,6 +2,7 @@ package com.penny.message.demo.task;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
@@ -20,6 +21,9 @@ import java.util.concurrent.ScheduledFuture;
 @Component
 @RestController
 public class DynamicTask {
+
+    @Autowired
+    RestTemplateBuilder restTemplateBuilder;
 
     /**
      * 默认cron表达式
@@ -55,7 +59,7 @@ public class DynamicTask {
         if (future != null) {
             future.cancel(true);
         }
-        future = threadPoolTaskScheduler.schedule(new MessageRunnable(), new CronTrigger(cron));
+        future = threadPoolTaskScheduler.schedule(new MessageRunnable(restTemplateBuilder), new CronTrigger(cron));
         log.info("DynamicTask.startTask()");
     }
 
